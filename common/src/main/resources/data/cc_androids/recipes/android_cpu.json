@@ -1,0 +1,28 @@
+{
+  "type": "cc_androids:wrench_shaped",
+  "pattern": [
+    "WLR",
+    "GDG",
+    "RLR"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "cc_androids:wrench"
+    }
+  },
+  "result": {
+    "item": "cc_androids:android_cpu"
+  }
+}

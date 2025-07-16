@@ -76,6 +76,7 @@ public class RogueDroidEntity extends HostileEntity {
         this.goalSelector.add(3, new LookAroundGoal(this));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, 0.5));
         this.goalSelector.add(1, new MeleeAttackGoal(this, 0.5, false));
+        this.targetSelector.add(1, new RevengeGoal(this).setGroupRevenge(RogueDroidEntity.class));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, MerchantEntity.class, false));
     }
@@ -98,5 +99,10 @@ public class RogueDroidEntity extends HostileEntity {
     @Override
     protected @Nullable SoundEvent getDeathSound() {
         return SoundRegistry.ANDROID_DEATH.get();
+    }
+
+    @Override
+    public float getSoundPitch() {
+        return super.getSoundPitch() * 0.5f;
     }
 }

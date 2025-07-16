@@ -1,8 +1,8 @@
 package com.thunderbear06.item;
 
+import com.thunderbear06.AndroidPlatformHelper;
 import com.thunderbear06.CCAndroids;
 import com.thunderbear06.entity.EntityRegistry;
-import dev.architectury.platform.Platform;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -11,7 +11,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 
@@ -39,15 +38,13 @@ public class ItemRegistry {
     public static final RegistrySupplier<Item> ANDROID_ROGUE_SPAWN_EGG = registerEgg(EntityRegistry.ROGUE_ANDROID_ENTITY, 0xf41818,0x9b2222, "android_rogue_spawn");
 
     private static RegistrySupplier<Item> registerEgg(RegistrySupplier<? extends EntityType<? extends MobEntity>> entityType, int color1, int color2, String path) {
-        return SPAWN_EGGS.register(path, () -> new SpawnEggItem(entityType.get(), color1, color2, new Item.Settings().arch$tab(ANDROIDS_ITEM_GROUP)));
+        return SPAWN_EGGS.register(path, AndroidPlatformHelper.get().getSpawnEggItem(entityType, color1, color2, new Item.Settings().arch$tab(ANDROIDS_ITEM_GROUP)));
     }
 
     public static void register() {
         ITEMS.register();
         ITEM_GROUPS.register();
-        if (Platform.isFabric()) {
-            SPAWN_EGGS.register(); // Forge crashes since items are registered before entities
-        }
+        SPAWN_EGGS.register();
         CCAndroids.LOGGER.info("Registered Items");
     }
 }
