@@ -18,13 +18,18 @@ public abstract class EntityBasedTask extends Task
     @Override
     public boolean shouldTick()
     {
-        return targetEntity.isAlive();
+        return super.shouldTick() && targetEntity.isAlive();
     }
 
     @Override
     public void tick()
     {
         this.android.getLookControl().lookAt(getTarget());
+    }
+
+    protected boolean canReachTarget()
+    {
+        return isInRange(1);
     }
 
     protected boolean isInRange(double distance)

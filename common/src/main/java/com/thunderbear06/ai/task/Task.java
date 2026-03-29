@@ -4,6 +4,9 @@ import com.thunderbear06.entity.android.AndroidEntity;
 
 public abstract class Task
 {
+    protected long inactiveTicksToInterrupt = 100;
+    protected long ticksInactive = 0;
+
     protected final AndroidEntity android;
 
     public Task(AndroidEntity android)
@@ -15,10 +18,19 @@ public abstract class Task
 
     public boolean shouldTick()
     {
-        return false;
+        return ticksInactive < inactiveTicksToInterrupt;
     }
 
     public abstract void firstTick();
     public abstract void tick();
-    public abstract void lastTick();
+
+    public void lastTick()
+    {
+        ticksInactive = 0;
+    }
+
+    protected void cancel()
+    {
+        this.android.brain.getTaskManager().clearCurrentTask();
+    }
 }

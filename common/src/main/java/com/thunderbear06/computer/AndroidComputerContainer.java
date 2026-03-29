@@ -32,8 +32,6 @@ public class AndroidComputerContainer {
     private final BaseAndroidEntity android;
 
     public Text label = Text.translatable("entity.cc_androids.android");
-    public boolean isOn = false;
-    public boolean fresh = false;
 
     @Nullable
     private UUID instanceID = null;
@@ -61,26 +59,29 @@ public class AndroidComputerContainer {
             startOn = false;
         }
 
-        fresh = false;
-        computerID = computer.getID();
+        boolean newOn = computer.isOn();
+
+        if (android.isOn() != newOn)
+        {
+            if (newOn)
+                android.turnOn();
+            else
+                android.shutdown();
+
+            return;
+        }
 
         updateOwnerLabel(computer);
 
         tickPeripherals();
 
         computer.keepAlive();
-
-        if (!isOn && android.isOn) {
-            android.shutdown();
-        }
     }
 
     public void turnOn(ServerComputer computer) {
         computer.turnOn();
 
         computerID = computer.getID();
-        android.isOn = true;
-        isOn = true;
 
         onHandItemChanged(Hand.MAIN_HAND);
         onHandItemChanged(Hand.OFF_HAND);
@@ -91,7 +92,7 @@ public class AndroidComputerContainer {
     public void openComputer(ServerPlayerEntity player) {
         ServerComputer computer = getOrCreateServerComputer();
 
-        if (!isOn)
+        if (!computer.isOn())
             turnOn(computer);
 
         PlatformHelper.get().openMenu(
@@ -130,7 +131,6 @@ public class AndroidComputerContainer {
 
             computer = createComputer(computerID);
             instanceID = computer.register();
-            fresh = true;
         }
 
         return computer;
@@ -145,11 +145,6 @@ public class AndroidComputerContainer {
         }
 
         computer.setPeripheral(side, peripheral);
-    }
-
-    public boolean isOn() {
-        EntityComputer computer = getServerComputer();
-        return computer != null && computer.isOn();
     }
 
     public ComputerFamily getFamily() {
@@ -187,7 +182,7 @@ public class AndroidComputerContainer {
     }
 
     public void writeNbt(NbtCompound computerCompound) {
-        computerCompound.putBoolean("StartOn", startOn);
+        computerCompound.putBoolean("StartOn", android.isOn());
         computerCompound.putInt("ComputerID", getComputerID());
     }
 

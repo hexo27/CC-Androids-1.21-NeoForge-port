@@ -17,6 +17,9 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.item.ItemStack;
@@ -35,6 +38,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 public class BaseAndroidEntity extends PathAwareEntity {
+    private static final TrackedData<Boolean> IS_ON = DataTracker.registerData(BaseAndroidEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
     public AndroidBrain brain;
 
     public final AndroidInventory inventory;
@@ -42,8 +47,6 @@ public class BaseAndroidEntity extends PathAwareEntity {
     protected final AndroidComputerContainer computerContainer;
     protected final int maxFuel = 10000;
     protected int fuel = 0;
-
-    public boolean isOn = false;
 
     protected BaseAndroidEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -58,6 +61,13 @@ public class BaseAndroidEntity extends PathAwareEntity {
     @Override
     public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         return entityData;
+    }
+
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+
+        this.dataTracker.startTracking(IS_ON, false);
     }
 
     @Override
@@ -87,18 +97,31 @@ public class BaseAndroidEntity extends PathAwareEntity {
             consumeFuel();
     }
 
+    public boolean isOn() {
+        return this.dataTracker.get(IS_ON);
+    }
+
+    protected void setIsOn(boolean isOn) {
+        this.dataTracker.set(IS_ON, isOn);
+    }
+
     protected boolean isIdle() {
         return true;
     }
 
+    public void turnOn()
+    {
+        setIsOn(true);
+    }
+
     public void shutdown() {
-        this.isOn = false;
+        setIsOn(false);
 
         this.brain.onShutdown();
     }
 
     private void updatePeripherals() {
-        if (this.computerContainer.getComputerID() < 0 || !this.computerContainer.isOn)
+        if (this.computerContainer.getComputerID() < 0 || !isOn())
             return;
 
         for (Direction direction : Direction.stream().toList()) {
@@ -120,7 +143,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
 
         this.getComputer().onHandItemChanged(hand);
 
-        if (this.getComputer().isOn)
+        if (isOn())
             this.getComputer().getUpgradePeripherals();
     }
 
@@ -298,7 +321,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
     }
 
     public void readChatMessage(String msg, String senderName, UUID senderUUID) {
-        if (!isOn)
+        if (!isOn())
             return;
 
         EntityComputer computer = getComputer().getServerComputer();

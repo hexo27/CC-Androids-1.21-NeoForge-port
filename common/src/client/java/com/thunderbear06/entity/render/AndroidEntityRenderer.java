@@ -3,16 +3,18 @@ package com.thunderbear06.entity.render;
 import com.thunderbear06.CCAndroids;
 import com.thunderbear06.entity.android.AndroidEntity;
 import com.thunderbear06.entity.android.CommandAndroidEntity;
+import com.thunderbear06.entity.model.AndroidEntityModel;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
-public class AndroidEntityRenderer extends BipedEntityRenderer<AndroidEntity, PlayerEntityModel<AndroidEntity>> {
+public class AndroidEntityRenderer extends BipedEntityRenderer<AndroidEntity, AndroidEntityModel> {
     private final Identifier androidNormal = new Identifier(CCAndroids.MOD_ID, "textures/entity/android_normal.png");
     private final Identifier androidAdvanced = new Identifier(CCAndroids.MOD_ID, "textures/entity/android_advanced.png");
     private final Identifier androidCommand = new Identifier(CCAndroids.MOD_ID, "textures/entity/android_command.png");
@@ -27,7 +29,7 @@ public class AndroidEntityRenderer extends BipedEntityRenderer<AndroidEntity, Pl
     private final Identifier face_woozy = new Identifier(CCAndroids.MOD_ID, "textures/entity/emissive/face/woozy.png");
 
     public AndroidEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new PlayerEntityModel<>(context.getPart(EntityModelLayers.PLAYER), false), 0.5f);
+        super(context, new AndroidEntityModel(context.getPart(EntityModelLayers.PLAYER), false), 0.5f);
 
         this.addFeature(new AndroidEmissiveRenderer(this) {
             @Override
@@ -42,7 +44,7 @@ public class AndroidEntityRenderer extends BipedEntityRenderer<AndroidEntity, Pl
         this.addFeature(new AndroidEmissiveRenderer(this) {
             @Override
             public RenderLayer getEyesTexture(AndroidEntity entity) {
-                if (entity.hasVariant())
+                if (!entity.isOn() || entity.hasVariant())
                     return null;
 
                 return RenderLayer.getEyes(switch (entity.getFace()) {
@@ -95,5 +97,10 @@ public class AndroidEntityRenderer extends BipedEntityRenderer<AndroidEntity, Pl
         };
 
         return new Identifier(CCAndroids.MOD_ID,path+name);
+    }
+
+    @Override
+    protected void setupTransforms(AndroidEntity entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta) {
+        super.setupTransforms(entity, matrices, animationProgress, bodyYaw, tickDelta);
     }
 }

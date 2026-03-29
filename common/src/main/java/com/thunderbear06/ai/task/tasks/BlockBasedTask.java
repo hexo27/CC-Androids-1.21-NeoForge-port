@@ -15,6 +15,11 @@ public abstract class BlockBasedTask extends Task
         target = pos;
     }
 
+    protected boolean canReachTarget()
+    {
+        return isInRange(2);
+    }
+
     protected boolean isInRange(double distance)
     {
         return this.android.getBlockPos().isWithinDistance(getTarget(), distance);

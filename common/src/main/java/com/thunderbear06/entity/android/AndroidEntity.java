@@ -214,18 +214,26 @@ public class AndroidEntity extends BaseAndroidEntity {
     }
 
     @Override
+    public void playAmbientSound() {
+        if (!isOn())
+            return;
+
+        super.playAmbientSound();
+    }
+
+    @Override
     protected @Nullable SoundEvent getAmbientSound() {
         return SoundRegistry.ANDROID_AMBIENT.get();
     }
 
     @Override
     protected @Nullable SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.ANDROID_HURT.get();
+        return isOn() ? SoundRegistry.ANDROID_HURT.get() : SoundEvents.ENTITY_PLAYER_HURT;
     }
 
     @Override
     protected @Nullable SoundEvent getDeathSound() {
-        return SoundRegistry.ANDROID_DEATH.get();
+        return isOn() ? SoundRegistry.ANDROID_DEATH.get() : SoundEvents.ENTITY_PLAYER_DEATH;
     }
 
     @Override

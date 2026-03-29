@@ -22,7 +22,7 @@ public class BreakBlockTask extends MoveToBlockTask
     @Override
     public boolean shouldTick()
     {
-        return android.brain.getModules().miningModule.canMineBlock(getTarget());
+        return super.shouldTick() && android.brain.getModules().miningModule.canMineBlock(getTarget());
     }
 
     @Override
@@ -31,7 +31,7 @@ public class BreakBlockTask extends MoveToBlockTask
         Vec3d pos = getTarget().toCenterPos();
         this.android.getLookControl().lookAt(pos.getX(), pos.getY(), pos.getZ());
 
-        if (isInRange(3)) {
+        if (canReachTarget()) {
             this.android.swingHand(Hand.MAIN_HAND);
             this.android.brain.getModules().miningModule.mine(getTarget());
         }
@@ -42,6 +42,13 @@ public class BreakBlockTask extends MoveToBlockTask
     @Override
     public void lastTick()
     {
+        super.lastTick();
+
         this.android.brain.getModules().miningModule.resetBreakProgress(getTarget());
+    }
+
+    @Override
+    protected boolean canReachTarget() {
+        return isInRange(3);
     }
 }

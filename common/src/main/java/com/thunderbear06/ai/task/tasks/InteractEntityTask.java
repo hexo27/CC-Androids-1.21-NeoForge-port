@@ -6,8 +6,6 @@ import net.minecraft.util.Hand;
 
 public class InteractEntityTask extends MoveToEntityTask
 {
-    private boolean complete = false;
-
     public InteractEntityTask(AndroidEntity android, double moveSpeed, LivingEntity entity)
     {
         super(android, moveSpeed, entity);
@@ -22,19 +20,17 @@ public class InteractEntityTask extends MoveToEntityTask
     @Override
     public boolean shouldTick()
     {
-        return getTarget().isAlive() && !complete;
+        return super.shouldTick();
     }
 
     @Override
-    public void tick()
-    {
-        if (isInRange(2))
-        {
-            android.getLookControl().lookAt(getTarget());
-            android.brain.getModules().interactionModule.interactWithEntity(Hand.MAIN_HAND, getTarget());
-            complete = true;
-        }
-        else
-            super.tick();
+    public void lastTick() {
+        super.lastTick();
+
+        if (!canReachTarget())
+            return;
+
+        android.getLookControl().lookAt(getTarget());
+        android.brain.getModules().interactionModule.interactWithEntity(Hand.MAIN_HAND, getTarget());
     }
 }

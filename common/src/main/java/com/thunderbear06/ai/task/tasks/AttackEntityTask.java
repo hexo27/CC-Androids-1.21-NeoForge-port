@@ -6,11 +6,14 @@ import net.minecraft.util.Hand;
 
 public class AttackEntityTask extends MoveToEntityTask
 {
+    private final boolean oneShot;
     private int attackCooldown;
 
-    public AttackEntityTask(AndroidEntity android, double moveSpeed, LivingEntity entity)
+    public AttackEntityTask(AndroidEntity android, double moveSpeed, LivingEntity entity, boolean isOneShot)
     {
         super(android, moveSpeed, entity);
+
+        oneShot = isOneShot;
     }
 
     @Override
@@ -22,7 +25,7 @@ public class AttackEntityTask extends MoveToEntityTask
     @Override
     public boolean shouldTick()
     {
-        return getTarget().isAlive();
+        return getTarget().isAlive() && ticksInactive < inactiveTicksToInterrupt;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class AttackEntityTask extends MoveToEntityTask
         if (this.attackCooldown-- > 0)
             return;
 
-        if (isInRange(2) && this.attackCooldown <= 0)
+        if (canReachTarget() && this.attackCooldown <= 0)
             attack();
         else
             super.tick();
@@ -45,6 +48,13 @@ public class AttackEntityTask extends MoveToEntityTask
 
         this.android.getLookControl().lookAt(target);
         this.android.swingHand(Hand.MAIN_HAND);
-        this.android.tryAttack(target);
+
+        if (this.android.tryAttack(target) && oneShot)
+            cancel();
+    }
+
+    @Override
+    protected boolean canReachTarget() {
+        return isInRange(2);
     }
 }

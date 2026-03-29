@@ -17,12 +17,12 @@ public class AndroidLookAtEntityGoal extends LookAtEntityGoal
     @Override
     public boolean shouldContinue()
     {
-        return brain.getTaskManager().isIdle() && super.shouldContinue();
+        return brain.getTaskManager().isIdle() && brain.android.isOn() && super.shouldContinue();
     }
 
     @Override
     public boolean canStart()
     {
-        return brain.getTaskManager().isIdle() && super.canStart();
+        return brain.getTaskManager().isIdle() && brain.android.isOn() && super.canStart();
     }
 }

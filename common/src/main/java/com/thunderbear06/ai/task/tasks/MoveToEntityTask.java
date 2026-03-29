@@ -3,6 +3,7 @@ package com.thunderbear06.ai.task.tasks;
 import com.thunderbear06.entity.android.AndroidEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.ai.pathing.PathNode;
 import net.minecraft.util.math.BlockPos;
 
 public class MoveToEntityTask extends EntityBasedTask
@@ -27,7 +28,7 @@ public class MoveToEntityTask extends EntityBasedTask
     @Override
     public boolean shouldTick()
     {
-        return super.shouldTick() && !isInRange(1);
+        return super.shouldTick() && !canReachTarget();
     }
 
     @Override
@@ -39,15 +40,19 @@ public class MoveToEntityTask extends EntityBasedTask
         super.tick();
 
         if (nav.isIdle())
-        {
-            BlockPos entityPos = getTarget().getBlockPos();
-            nav.startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), this.moveSpeed);
-        }
+            ticksInactive++;
+        else
+            ticksInactive = 0;
+
+        BlockPos entityPos = getTarget().getBlockPos();
+        nav.startMovingTo(entityPos.getX(), entityPos.getY(), entityPos.getZ(), this.moveSpeed);
     }
 
     @Override
     public void lastTick()
     {
+        super.lastTick();
+
         if (nav.isIdle())
             return;
 

@@ -1,6 +1,7 @@
 package com.thunderbear06.entity.render;
 
 import com.thunderbear06.entity.android.AndroidEntity;
+import com.thunderbear06.entity.model.AndroidEntityModel;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -13,9 +14,9 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public abstract class AndroidEmissiveRenderer extends FeatureRenderer<AndroidEntity, PlayerEntityModel<AndroidEntity>> {
+public abstract class AndroidEmissiveRenderer extends FeatureRenderer<AndroidEntity, AndroidEntityModel> {
 
-    public AndroidEmissiveRenderer(FeatureRendererContext<AndroidEntity, PlayerEntityModel<AndroidEntity>> context) {
+    public AndroidEmissiveRenderer(FeatureRendererContext<AndroidEntity, AndroidEntityModel> context) {
         super(context);
     }
 
