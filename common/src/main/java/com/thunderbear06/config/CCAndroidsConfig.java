@@ -23,12 +23,4 @@ public class CCAndroidsConfig implements ConfigLoader.ConfigState {
     public float ComAndroidDamage = 3.0f;
     public float ComAndroidSpeed = 0.9f;
     public float ComAndroidArmor = 3.0f;
-
-    public float RogueMaxHealth = 25.0f;
-    public float RogueDamage = 5.0f;
-    public float RogueSpeed = 0.6f;
-    public float RogueArmor = 5.0f;
-
-    public boolean RoguesSpawnNaturally = true;
-    public boolean RoguesSpawnWithTools = true;
 }

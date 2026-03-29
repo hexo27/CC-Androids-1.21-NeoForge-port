@@ -30,44 +30,10 @@ public class RogueDroidEntity extends HostileEntity {
 
     public static DefaultAttributeContainer.Builder createAndroidAttributes() {
         return createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, CCAndroids.CONFIG.RogueMaxHealth)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, CCAndroids.CONFIG.RogueDamage)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, CCAndroids.CONFIG.RogueSpeed)
-                .add(EntityAttributes.GENERIC_ARMOR, CCAndroids.CONFIG.RogueArmor);
-    }
-
-    @Override
-    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-        if (spawnReason == SpawnReason.NATURAL) {
-            if (!CCAndroids.CONFIG.RoguesSpawnNaturally)
-                return false;
-            if (world.isSkyVisible(this.getBlockPos()))
-                return false;
-            if (world.getLightLevel(this.getBlockPos()) > 3)
-                return false;
-        }
-
-        return super.canSpawn(world, spawnReason);
-    }
-
-    @Override
-    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        if (spawnReason.equals(SpawnReason.NATURAL) && CCAndroids.CONFIG.RoguesSpawnWithTools) {
-            int rng = this.getRandom().nextInt(10);
-
-            ItemStack handStack = switch (rng) {
-                case 5 -> Items.WOODEN_SHOVEL.getDefaultStack();
-                case 6 -> Items.WOODEN_HOE.getDefaultStack();
-                case 7 -> Items.WOODEN_PICKAXE.getDefaultStack();
-                case 8 -> Items.WOODEN_SWORD.getDefaultStack();
-                case 9 -> Items.STICK.getDefaultStack();
-                case 10 -> Items.IRON_SHOVEL.getDefaultStack();
-                default -> ItemStack.EMPTY;
-            };
-
-            setStackInHand(Hand.MAIN_HAND, handStack);
-        }
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20f)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1f)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6f)
+                .add(EntityAttributes.GENERIC_ARMOR, 0.0f);
     }
 
     @Override

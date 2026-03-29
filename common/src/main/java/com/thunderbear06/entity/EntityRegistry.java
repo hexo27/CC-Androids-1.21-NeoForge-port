@@ -42,7 +42,6 @@ public class EntityRegistry {
     public static void register() {
         ENTITY_TYPES.register();
         registerAttributes();
-        registerSpawns();
         CCAndroids.LOGGER.info("Registered Entities");
     }
 
@@ -52,9 +51,5 @@ public class EntityRegistry {
         EntityAttributeRegistry.register(COMMAND_ANDROID_ENTITY, CommandAndroidEntity::createAndroidAttributes);
         EntityAttributeRegistry.register(ROGUE_ANDROID_ENTITY, RogueDroidEntity::createAndroidAttributes);
         EntityAttributeRegistry.register(ANDROID_FRAME_ENTITY, MobEntity::createMobAttributes);
-    }
-
-    private static void registerSpawns() {
-        BiomeModifications.addProperties(context -> !context.hasTag(BiomeTags.IS_OCEAN), (context, properties) -> properties.getSpawnProperties().addSpawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(ROGUE_ANDROID_ENTITY.get(), 1, 1,1)));
     }
 }
