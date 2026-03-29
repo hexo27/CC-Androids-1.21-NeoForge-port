@@ -3,7 +3,6 @@ package com.thunderbear06.entity;
 import com.thunderbear06.CCAndroids;
 import com.thunderbear06.entity.android.*;
 import com.thunderbear06.entity.android.frame.AndroidFrame;
-import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -11,8 +10,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.world.biome.SpawnSettings;
 
 public class EntityRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(CCAndroids.MOD_ID, RegistryKeys.ENTITY_TYPE);

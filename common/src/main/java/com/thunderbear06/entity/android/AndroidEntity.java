@@ -182,6 +182,9 @@ public class AndroidEntity extends BaseAndroidEntity {
         this.dropIngots(true);
 
         AndroidFrame frame = this.convertTo(EntityRegistry.ANDROID_FRAME_ENTITY.get(), false);
+
+        assert frame != null;
+
         frame.copyPositionAndRotation(this);
         this.getWorld().playSound(null, getBlockPos(), SoundEvents.BLOCK_ANVIL_DESTROY, SoundCategory.NEUTRAL, 1.0f, 1.0f);
     }

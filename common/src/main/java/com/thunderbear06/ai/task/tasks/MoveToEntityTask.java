@@ -3,7 +3,6 @@ package com.thunderbear06.ai.task.tasks;
 import com.thunderbear06.entity.android.AndroidEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.ai.pathing.PathNode;
 import net.minecraft.util.math.BlockPos;
 
 public class MoveToEntityTask extends EntityBasedTask

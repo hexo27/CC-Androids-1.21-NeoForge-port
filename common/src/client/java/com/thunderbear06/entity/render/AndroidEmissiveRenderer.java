@@ -8,7 +8,6 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
@@ -34,5 +33,5 @@ public abstract class AndroidEmissiveRenderer extends FeatureRenderer<AndroidEnt
 
     public Vec3d getColor(AndroidEntity entity) {
         return new Vec3d(1,1,1);
-    };
+    }
 }
