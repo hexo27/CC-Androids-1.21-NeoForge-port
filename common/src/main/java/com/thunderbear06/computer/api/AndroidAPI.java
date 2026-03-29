@@ -265,7 +265,7 @@ public class AndroidAPI implements ILuaAPI
     @LuaFunction(mainThread = true)
     public final MethodResult getSlotInfo(int index)
     {
-        int size = brain.getAndroid().inventory.size()-1;
+        int size = brain.getAndroid().inventory.size() - 1;
 
         if (index < 0 || index > size)
             return MethodResult.of(true, String.format("Index must be between 0 and %d", size));
@@ -273,8 +273,9 @@ public class AndroidAPI implements ILuaAPI
         ItemStack storedStack = this.brain.getAndroid().getStashItem(index, false);
 
         if (storedStack == null || storedStack.isEmpty())
-            return MethodResult.of("empty");
-        return MethodResult.of(false, storedStack.getItem().getName().getString());
+            return MethodResult.of();
+
+        return MethodResult.of(false, Registries.ITEM.getId(storedStack.getItem()).toString(), storedStack.getCount());
     }
 
     @LuaFunction(mainThread = true)
