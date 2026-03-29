@@ -7,9 +7,12 @@ import com.thunderbear06.ai.task.tasks.BreakBlockTask;
 import com.thunderbear06.ai.task.tasks.InteractBlockTask;
 import com.thunderbear06.ai.task.tasks.InteractEntityTask;
 import dan200.computercraft.api.lua.*;
+import dan200.computercraft.shared.util.NBTUtil;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtHelper;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -255,7 +258,8 @@ public class AndroidAPI implements ILuaAPI
             stack = brain.getAndroid().getOffHandStack();
         else
             return MethodResult.of(true, "Invalid hand name");
-        return MethodResult.of(stack.getName().getString(), stack.getCount());
+
+        return MethodResult.of(Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount());
     }
 
     @LuaFunction(mainThread = true)
