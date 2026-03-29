@@ -1,6 +1,7 @@
 package com.thunderbear06.entity.android;
 
 import com.thunderbear06.AndroidPlatformHelper;
+import com.thunderbear06.CCAndroids;
 import com.thunderbear06.ai.AndroidBrain;
 import com.thunderbear06.computer.AndroidComputerContainer;
 import com.thunderbear06.computer.EntityComputer;
@@ -93,7 +94,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
 
         if (isIdle())
             updatePeripherals();
-        else
+        else if (CCAndroids.CONFIG.AndroidsNeedFuel)
             consumeFuel();
     }
 
@@ -189,7 +190,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
     }
 
     public boolean hasFuel() {
-        return this.fuel > 0;
+        return !CCAndroids.CONFIG.AndroidsNeedFuel || this.fuel > 0;
     }
 
     public AndroidComputerContainer getComputer() {

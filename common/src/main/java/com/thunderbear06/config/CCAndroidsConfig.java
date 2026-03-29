@@ -9,6 +9,8 @@ public class CCAndroidsConfig implements ConfigLoader.ConfigState {
     public float CompsDroppedOnDeathPercentage = 0.5f;
     public float IngotsDroppedOnDeathPercentage = 0.5f;
 
+    public boolean AndroidsNeedFuel = true;
+
     public float AndroidMaxHealth = 20.0f;
     public float AndroidDamage = 1.0f;
     public float AndroidSpeed = 0.6f;

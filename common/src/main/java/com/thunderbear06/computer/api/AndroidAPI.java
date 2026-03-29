@@ -1,5 +1,6 @@
 package com.thunderbear06.computer.api;
 
+import com.thunderbear06.CCAndroids;
 import com.thunderbear06.ai.AndroidBrain;
 import com.thunderbear06.ai.task.tasks.AttackEntityTask;
 import com.thunderbear06.ai.task.tasks.BreakBlockTask;
@@ -270,6 +271,9 @@ public class AndroidAPI implements ILuaAPI
     @LuaFunction(mainThread = true)
     public final MethodResult refuel(IArguments args) throws LuaException
     {
+        if (!CCAndroids.CONFIG.AndroidsNeedFuel)
+            return MethodResult.of(false);
+
         Optional<Integer> amt = args.optInt(0);
 
         ItemStack heldStack = this.brain.getAndroid().getMainHandStack();
@@ -288,6 +292,9 @@ public class AndroidAPI implements ILuaAPI
     @LuaFunction(mainThread = true)
     public final MethodResult fuelLevel()
     {
+        if (!CCAndroids.CONFIG.AndroidsNeedFuel)
+            return MethodResult.of(10000);
+
         return MethodResult.of(this.brain.getAndroid().getFuel());
     }
 
