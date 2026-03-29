@@ -91,7 +91,7 @@ public class AndroidAPI implements ILuaAPI
     */
 
     @LuaFunction
-    public final MethodResult attack(String entityUUID, Optional<Boolean> mustDie) throws LuaException
+    public final MethodResult attack(String entityUUID, Optional<Boolean> oneShot) throws LuaException
     {
         if (missingFuel())
             throw new LuaException("Android requires fuel.");
@@ -101,7 +101,7 @@ public class AndroidAPI implements ILuaAPI
         if (target == null)
             return MethodResult.of(true, "Unknown entity or invalid UUID");
 
-        this.brain.setTask(new AttackEntityTask(brain.getAndroid(), 0.5, target, mustDie.isPresent() && mustDie.get()));
+        this.brain.setTask(new AttackEntityTask(brain.getAndroid(), 0.5, target, oneShot.isPresent() && oneShot.get()));
         return MethodResult.of();
     }
 
@@ -205,8 +205,13 @@ public class AndroidAPI implements ILuaAPI
         if (result != null)
             return result;
 
+        int previousCount = itemStack.getCount();
+
         itemStack = this.brain.getAndroid().stashStack(itemStack, index);
         this.brain.getAndroid().setStackInHand(Hand.MAIN_HAND, itemStack);
+
+        if (itemStack.getCount() == previousCount)
+            return MethodResult.of(true, "Could not stash item at index "+index);
 
         return MethodResult.of(false, "Stashed held item at index "+index);
     }
