@@ -47,11 +47,11 @@ public class AndroidEntity extends BaseAndroidEntity {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(IS_LOCKED, false);
-        this.dataTracker.startTracking(VARIANT, (byte) 0);
-        this.dataTracker.startTracking(FACE, (byte) 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(IS_LOCKED, false);
+        builder.add(VARIANT, (byte) 0);
+        builder.add(FACE, (byte) 0);
     }
 
     public static DefaultAttributeContainer.Builder createAndroidAttributes() {

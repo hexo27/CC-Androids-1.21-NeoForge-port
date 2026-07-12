@@ -1,6 +1,7 @@
 package com.thunderbear06;
 
 import com.thunderbear06.ai.AndroidBrain;
+import com.thunderbear06.component.ComponentRegistry;
 import com.thunderbear06.component.ComputerComponents;
 import com.thunderbear06.computer.api.AndroidAPI;
 import com.thunderbear06.config.CCAndroidsConfig;
@@ -8,7 +9,6 @@ import com.thunderbear06.config.ConfigLoader;
 import com.thunderbear06.entity.EntityRegistry;
 import com.thunderbear06.item.ItemRegistry;
 import com.thunderbear06.menu.MenuRegistry;
-import com.thunderbear06.recipe.RecipeRegistry;
 import com.thunderbear06.sounds.SoundRegistry;
 import dan200.computercraft.api.ComputerCraftAPI;
 import org.slf4j.Logger;
@@ -30,10 +30,10 @@ public class CCAndroids {
 		CONFIG = ConfigLoader.loadConfig(MOD_ID, new CCAndroidsConfig());
 		LOGGER.info("Loaded Config File");
 
+		ComponentRegistry.Register();
 		MenuRegistry.register();
 		EntityRegistry.register();
 		ItemRegistry.register();
 		SoundRegistry.register();
-		RecipeRegistry.register();
 	}
 }

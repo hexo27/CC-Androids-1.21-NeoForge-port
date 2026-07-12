@@ -1,10 +1,10 @@
 package com.thunderbear06.fabric.client;
 
 import com.thunderbear06.CCAndroids;
-import com.thunderbear06.CCAndroidsClient;
-import com.thunderbear06.entity.render.AndroidEntityRenderer;
-import com.thunderbear06.entity.render.AndroidFrameEntityRenderer;
-import com.thunderbear06.entity.render.RogueAndroidEntityRenderer;
+import com.thunderbear06.client.CCAndroidsClient;
+import com.thunderbear06.client.entity.render.AndroidEntityRenderer;
+import com.thunderbear06.client.entity.render.AndroidFrameEntityRenderer;
+import com.thunderbear06.client.entity.render.RogueAndroidEntityRenderer;
 import com.thunderbear06.entity.EntityRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;

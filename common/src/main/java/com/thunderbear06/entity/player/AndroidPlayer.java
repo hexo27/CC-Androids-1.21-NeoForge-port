@@ -80,7 +80,7 @@ public class AndroidPlayer {
     }
 
     private static GameProfile getProfile(@Nullable GameProfile profile) {
-        return profile != null && profile.isComplete() ? profile : DEFAULT_PROFILE;
+        return profile != null ? profile : DEFAULT_PROFILE;
     }
 
     public void loadHand(ItemStack stack, Hand hand) {

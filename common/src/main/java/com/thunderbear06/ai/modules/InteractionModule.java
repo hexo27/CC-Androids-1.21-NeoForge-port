@@ -50,12 +50,12 @@ public class InteractionModule extends AbstractAndroidModule {
         }
 
         if (entity instanceof MobEntity mob) {
-            if (handStack.isOf(Items.LEAD) && mob.getHoldingEntity() == null) {
+            if (handStack.isOf(Items.LEAD) && mob.getLeashHolder() == null) {
                 mob.attachLeash(this.android, true);
                 handStack.decrement(1);
                 this.android.setStackInHand(hand, handStack);
                 return;
-            } else if (handStack.isEmpty() && mob.getHoldingEntity() != null && mob.getHoldingEntity().equals(this.android)) {
+            } else if (handStack.isEmpty() && mob.getLeashHolder() != null && mob.getLeashHolder().equals(this.android)) {
                 mob.detachLeash(true, true);
                 return;
             }
@@ -116,7 +116,7 @@ public class InteractionModule extends AbstractAndroidModule {
 
             android.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
         }
-        else if (ItemStack.canCombine(invStack, heldStack))
+        else if (ItemStack.areItemsAndComponentsEqual(invStack, heldStack))
         {
             int space = invStack.getMaxCount() - invStack.getCount();
             int transfer = Math.min(heldStack.getCount(), space);
@@ -164,7 +164,7 @@ public class InteractionModule extends AbstractAndroidModule {
 
             inv.setStack(slot, ItemStack.EMPTY);
         }
-        else if (ItemStack.canCombine(invStack, heldStack))
+        else if (ItemStack.areItemsAndComponentsEqual(invStack, heldStack))
         {
             int space = heldStack.getMaxCount() - heldStack.getCount();
             int transfer = Math.min(invStack.getCount(), space);

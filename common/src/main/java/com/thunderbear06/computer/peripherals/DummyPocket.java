@@ -5,7 +5,6 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.IPocketAccess;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.upgrades.UpgradeData;
-import dan200.computercraft.impl.PocketUpgrades;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -65,6 +64,16 @@ public class DummyPocket implements IPocketAccess {
 
     @Override
     public void setUpgrade(@Nullable UpgradeData<IPocketUpgrade> upgrade) {}
+
+    @Override
+    public net.minecraft.core.component.DataComponentPatch getUpgradeData() {
+        return null;
+    }
+
+    @Override
+    public void setUpgradeData(net.minecraft.core.component.DataComponentPatch dataComponentPatch) {
+
+    }
 
     @Override
     public NbtCompound getUpgradeNBTData() {

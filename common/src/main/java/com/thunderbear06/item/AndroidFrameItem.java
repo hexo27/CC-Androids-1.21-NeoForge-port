@@ -40,7 +40,7 @@ public class AndroidFrameItem extends Item {
         if (world.isSpaceEmpty(null, box) && world.getOtherEntities(null, box).isEmpty()) {
             if (world instanceof ServerWorld serverWorld) {
                 Consumer<AndroidFrame> consumer = EntityType.copier(serverWorld, itemStack, context.getPlayer());
-                AndroidFrame frame = EntityRegistry.ANDROID_FRAME_ENTITY.get().create(serverWorld, itemStack.getNbt(), consumer, blockPos, SpawnReason.SPAWN_EGG, true, true);
+                AndroidFrame frame = EntityRegistry.ANDROID_FRAME_ENTITY.get().create(serverWorld, consumer, blockPos, SpawnReason.SPAWN_EGG, true, true);
 
                 if (frame == null) {
                     return ActionResult.FAIL;

@@ -14,6 +14,7 @@ import dan200.computercraft.core.computer.ComputerSide;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import dan200.computercraft.shared.computer.core.ServerContext;
+import dan200.computercraft.shared.computer.core.TerminalSize;
 import dan200.computercraft.shared.config.Config;
 import dan200.computercraft.shared.network.container.ComputerContainerData;
 import dan200.computercraft.shared.platform.PlatformHelper;
@@ -171,7 +172,7 @@ public class AndroidComputerContainer {
         ServerComputer.Properties properties = ServerComputer.properties(id, getFamily())
                 .addComponent(ComputerComponents.ANDROID_COMPUTER, android.brain)
                 .label(label.toString())
-                .terminalSize(Config.TURTLE_TERM_WIDTH, Config.TURTLE_TERM_HEIGHT);
+                .terminalSize(new TerminalSize(Config.TURTLE_TERM_WIDTH, Config.TURTLE_TERM_HEIGHT));
 
         return new EntityComputer((ServerWorld)android.getWorld(), android, properties);
     }

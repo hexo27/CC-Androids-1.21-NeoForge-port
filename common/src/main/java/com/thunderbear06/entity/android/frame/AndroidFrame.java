@@ -1,6 +1,7 @@
 package com.thunderbear06.entity.android.frame;
 
 import com.thunderbear06.CCAndroids;
+import com.thunderbear06.component.ComponentRegistry;
 import com.thunderbear06.entity.EntityRegistry;
 import com.thunderbear06.entity.android.BaseAndroidEntity;
 import com.thunderbear06.item.ItemRegistry;
@@ -41,13 +42,13 @@ public class AndroidFrame extends MobEntity {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(BUILD_PROGRESS, (byte) 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(BUILD_PROGRESS, (byte) 0);
 
-        this.dataTracker.startTracking(COMPONENTS_NEEDED, CCAndroids.CONFIG.CompsForConstruction);
-        this.dataTracker.startTracking(INGOTS_NEEDED, CCAndroids.CONFIG.IngotsForConstruction);
-        this.dataTracker.startTracking(HAS_CORE, false);
+        builder.add(COMPONENTS_NEEDED, CCAndroids.CONFIG.CompsForConstruction);
+        builder.add(INGOTS_NEEDED, CCAndroids.CONFIG.IngotsForConstruction);
+        builder.add(HAS_CORE, false);
     }
 
     @Override
@@ -170,8 +171,9 @@ public class AndroidFrame extends MobEntity {
         else
             family = this.isAdvanced ? ComputerFamily.ADVANCED : ComputerFamily.NORMAL;
 
-        if (cpu.hasNbt() && cpu.getNbt().contains("ComputerID"))
-            computerID = cpu.getNbt().getInt("ComputerID");
+        if (cpu.contains(ComponentRegistry.COMPUTER_ID_COMPONENT)) {
+            computerID = cpu.getOrDefault(ComponentRegistry.COMPUTER_ID_COMPONENT, computerID);
+        }
 
         finish(family, computerID);
     }

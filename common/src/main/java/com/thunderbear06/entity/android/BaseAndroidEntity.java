@@ -3,15 +3,19 @@ package com.thunderbear06.entity.android;
 import com.thunderbear06.AndroidPlatformHelper;
 import com.thunderbear06.CCAndroids;
 import com.thunderbear06.ai.AndroidBrain;
+import com.thunderbear06.component.ComponentRegistry;
 import com.thunderbear06.computer.AndroidComputerContainer;
 import com.thunderbear06.computer.EntityComputer;
 import com.thunderbear06.entity.player.AndroidPlayer;
 import com.thunderbear06.inventory.AndroidInventory;
 import com.thunderbear06.item.ItemRegistry;
 import com.thunderbear06.tags.TagRegistry;
+import dan200.computercraft.api.component.ComputerComponent;
+import dan200.computercraft.api.component.ComputerComponents;
 import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.core.computer.ComputerSide;
+import dan200.computercraft.shared.ModRegistry;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import net.minecraft.entity.*;
@@ -23,6 +27,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -60,15 +65,15 @@ public class BaseAndroidEntity extends PathAwareEntity {
 
     // Disables random attributes on spawn (hopefully)
     @Override
-    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
         return entityData;
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
 
-        this.dataTracker.startTracking(IS_ON, false);
+        builder.add(IS_ON, false);
     }
 
     @Override
@@ -238,11 +243,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
         ItemStack stack = new ItemStack(isCommand ? Items.COMMAND_BLOCK : ItemRegistry.ANDROID_CPU.get());
 
         if (this.computerContainer.getComputerID() >= 0) {
-            NbtCompound compound = new NbtCompound();
-
-            compound.putInt("ComputerID", this.computerContainer.getComputerID());
-
-            stack.setNbt(compound);
+            stack.set(ComponentRegistry.COMPUTER_ID_COMPONENT, this.computerContainer.getComputerID());
         }
 
         this.dropStack(stack);
@@ -304,7 +305,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
 
         ItemStack storedStack = this.inventory.getStack(index);
 
-        if (!storedStack.isEmpty() && !ItemStack.canCombine(storedStack, itemStack))
+        if (!storedStack.isEmpty() && !ItemStack.areItemsEqual(storedStack, itemStack))
             return MethodResult.of("Index is occupied by another item stack!");
 
         return null;
@@ -339,7 +340,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.put("Items", this.inventory.toNbtCompound());
+        nbt.put("Items", this.inventory.toNbtCompound(getRegistryManager()));
 
         nbt.putInt("Fuel", this.getFuel());
 
@@ -354,7 +355,7 @@ public class BaseAndroidEntity extends PathAwareEntity {
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
-        this.inventory.fromNbtCompound(nbt.getCompound("Items"));
+        this.inventory.fromNbtCompound(nbt.getCompound("Items"), getRegistryManager());
 
         if (nbt.contains("Fuel"))
             setFuel(nbt.getInt("Fuel"));
@@ -390,10 +391,10 @@ public class BaseAndroidEntity extends PathAwareEntity {
     @Override
     protected void onStatusEffectUpgraded(StatusEffectInstance effect, boolean reapplyEffect, @Nullable Entity source) {}
 
-    // Robots don't drown now, do they?
+    // TODO: Remove this and add androids to the breathe underwater tag
     @Override
-    public boolean canBreatheInWater() {
-        return true;
+    public int getAir() {
+        return getMaxAir();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.thunderbear06.fabric;
+package com.thunderbear06.forge;
 
 import com.thunderbear06.AndroidPlatformHelper;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -16,8 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class AndroidPlatformHelperFabric extends AndroidPlatformHelper {
-
+public class AndroidPlatformHelperNeoForge extends AndroidPlatformHelper {
 	@Override
 	public IPeripheral getPeripheral(ServerWorld world, BlockPos pos, Direction side) {
 		return Peripherals.getGenericPeripheral(world, pos, side, world.getBlockEntity(pos));
@@ -30,7 +29,7 @@ public class AndroidPlatformHelperFabric extends AndroidPlatformHelper {
 
 	public static void init() {
 		if (INSTANCE == null) {
-			INSTANCE = new AndroidPlatformHelperFabric();
+			INSTANCE = new AndroidPlatformHelperNeoForge();
 		}
 	}
 }

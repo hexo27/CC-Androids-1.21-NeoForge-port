@@ -2,15 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " I ",
-    " BI",
+      " II",
     "I  "
   ],
   "key": {
     "I": {
       "item": "minecraft:iron_ingot"
-    },
-    "B": {
-      "item": "cc_androids:components"
     }
   },
   "result": {
