@@ -1,0 +1,34 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "CC-BY-NC-4.0"
+issueTrackerURL = "https://github.com/ThunderBear2006/CC-Androids/issues"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "CC: Androids"
+authors = "ThunderBear2006"
+description = '''
+Adds programmable humanoid robots to Minecraft that are capable of interacting with the world and engaging in simple combat. Requires CC: Tweaked.
+'''
+
+[[dependencies."${mod_id}"]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "computercraft"
+type = "required"
+versionRange = "[1.119,)"
+ordering = "AFTER"
+side = "BOTH"
