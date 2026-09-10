@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " B ",
-    "III",
-    " I "
+    " I ",
+    " BI",
+    "I  "
   ],
   "key": {
     "I": {
       "item": "minecraft:iron_ingot"
     },
     "B": {
-      "item": "minecraft:iron_block"
+      "item": "cc_androids:components"
     }
   },
   "result": {
-    "item": "cc_androids:android_frame"
+    "id": "cc_androids:wrench"
   }
 }
